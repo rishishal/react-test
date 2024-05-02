@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { DataContext } from "../utils/useData";
+import { useContext } from "react";
 
-const Card = ({ filterData }) => {
+const Card = () => {
+  const { filterData } = useContext(DataContext);
   return (
     <div className="flex flex-wrap gap-y-3 mt-10">
-      {filterData?.products?.map((item) => (
+      {filterData?.map((item) => (
         <div
           key={item.id}
           className="w-full max-w-sm m-auto h-[480px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
