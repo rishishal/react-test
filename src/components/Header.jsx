@@ -8,13 +8,13 @@ import { useContext, useState } from "react";
 const Header = () => {
   const { data, setFilterData } = useContext(DataContext);
   const [searchValue, setSearchValue] = useState("");
-  console.log("Data", data);
+  // console.log("Data", data);
 
   const handleInput = (e) => {
     setSearchValue(e.target.value);
     setFilterData(
       data.products.filter((res) =>
-        res.title.toLowerCase().includes(searchValue)
+        res.title.toLowerCase().includes(searchValue.toLowerCase())
       )
     );
   };
