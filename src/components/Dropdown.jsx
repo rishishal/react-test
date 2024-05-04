@@ -2,7 +2,7 @@ import { DataContext } from "../utils/useData";
 import { useContext } from "react";
 
 const Dropdown = ({ filteroption }) => {
-  const { data, filterData, setFilterData } = useContext(DataContext);
+  const { data, setFilterData } = useContext(DataContext);
 
   const handleValue = (e) => {
     setFilterData(
@@ -12,7 +12,6 @@ const Dropdown = ({ filteroption }) => {
       setFilterData(data.products);
     }
   };
-  console.log(filterData);
 
   return (
     <select
