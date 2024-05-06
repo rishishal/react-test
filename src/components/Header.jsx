@@ -1,13 +1,16 @@
 import { FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaCartShopping } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { DataContext } from "../utils/useData";
 import { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const { data, setFilterData } = useContext(DataContext);
   const [searchValue, setSearchValue] = useState("");
+  const totalCount = useSelector((store) => store.allCart.totalCount);
   // console.log("Data", data);
 
   const handleInput = (e) => {
@@ -109,6 +112,18 @@ const Header = () => {
                   className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Services
+                </Link>
+              </li>
+              <li>
+                <Link to={"#"} className="block">
+                  <div className="relative">
+                    <div className="absolute left-3 -top-2 rounded-full w-3.5 h-3.5 bg-gray-200">
+                      <span className="flex justify-center items-center text-xs font-bold">
+                        {totalCount}
+                      </span>
+                    </div>
+                  </div>
+                  <FaCartShopping className="text-white w-5 h-5 mt-0.5" />
                 </Link>
               </li>
             </ul>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Products = () => {
   const [item, setItem] = useState({});
@@ -30,7 +31,9 @@ const Products = () => {
   return (
     <div className="flex">
       <div className="flex">
-        <button onClick={handlePrev}>previous</button>
+        <button onClick={handlePrev}>
+          <FaChevronLeft />
+        </button>
         <div className="flex justify-center">
           {item?.images?.map((url, i) => (
             <img
@@ -43,7 +46,9 @@ const Products = () => {
             />
           ))}
         </div>
-        <button onClick={handleNext}>Next</button>
+        <button onClick={handleNext}>
+          <FaChevronRight />
+        </button>
       </div>
       <div>
         <h1>{item.title}</h1>
