@@ -4,12 +4,13 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cart: [],
-    totalCount: 2,
+    totalCount: 0,
     totalPrice: 0,
   },
   reducers: {
     addItem: (state, action) => {
       state.cart.push(action.payload);
+      state.totalCount = state.cart.length;
     },
   },
 });

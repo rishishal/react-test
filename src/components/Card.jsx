@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { DataContext } from "../utils/useData";
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
+import { addItem } from "../utils/cartSlice";
 
 const Card = () => {
   const { filterData } = useContext(DataContext);
+  const dispatch = useDispatch();
+
+  const handleClick = (item) => {
+    dispatch(addItem(item));
+  };
+
   return (
     <div className="flex flex-wrap gap-y-3 mt-10">
       {filterData?.map((item) => (
@@ -80,12 +88,13 @@ const Card = () => {
               <span className="text-3xl font-bold text-gray-900 dark:text-white">
                 ₹{item.price}
               </span>
-              <Link
+              <button
                 to={"#"}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={() => handleClick(item)}
               >
                 Add to cart
-              </Link>
+              </button>
             </div>
           </div>
         </div>

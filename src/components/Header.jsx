@@ -91,7 +91,7 @@ const Header = () => {
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
                 <Link
-                  to="#"
+                  to="/"
                   className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
                   aria-current="page"
                 >
@@ -115,7 +115,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to={"#"} className="block">
+                <Link to={"/cart"} className="block">
                   <div className="relative">
                     <div className="absolute left-3 -top-2 rounded-full w-3.5 h-3.5 bg-gray-200">
                       <span className="flex justify-center items-center text-xs font-bold">
