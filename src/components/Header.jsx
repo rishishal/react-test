@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const { data, setFilterData } = useContext(DataContext);
   const [searchValue, setSearchValue] = useState("");
-  const totalCount = useSelector((store) => store.allCart.totalCount);
+  const cartItems = useSelector((store) => store.allCart.cart);
   // console.log("Data", data);
 
   const handleInput = (e) => {
@@ -21,6 +21,11 @@ const Header = () => {
       )
     );
   };
+
+  const totalQuantity = cartItems.reduce((total, count) => {
+    total += count.quantity;
+    return total;
+  }, 0);
 
   return (
     <div>
@@ -119,7 +124,7 @@ const Header = () => {
                   <div className="relative">
                     <div className="absolute left-3 -top-2 rounded-full w-3.5 h-3.5 bg-gray-200">
                       <span className="flex justify-center items-center text-xs font-bold">
-                        {totalCount}
+                        {totalQuantity}
                       </span>
                     </div>
                   </div>

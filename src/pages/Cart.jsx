@@ -1,10 +1,45 @@
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeItem, incrementIndex, decrementIndex } from "../utils/cartSlice";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 const Cart = () => {
+  const dispatch = useDispatch();
   const items = useSelector((store) => store.allCart.cart);
 
   console.log(items);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const handleRemove = (itemID) => {
+    dispatch(removeItem(itemID));
+  };
+
+  const calculateTotalPrice = () => {
+    let total = 0;
+    items.forEach((item) => {
+      total += item.price * item.quantity;
+    });
+    setTotalPrice(total);
+  };
+
+  const handleDecrement = (product) => {
+    const existingItemIndex = items.findIndex((item) => item.id === product.id);
+    if (existingItemIndex !== -1) {
+      dispatch(decrementIndex(existingItemIndex));
+    }
+  };
+
+  const handleIncrement = (product) => {
+    const existingItemIndex = items.findIndex((item) => item.id === product.id);
+    if (existingItemIndex !== -1) {
+      dispatch(incrementIndex(existingItemIndex));
+    }
+  };
+
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [items]);
 
   return (
     <div className="flex flex-col max-w-5xl m-auto p-6 space-y-4 m-x-10 dark:bg-gray-50 dark:text-gray-800">
@@ -33,7 +68,7 @@ const Cart = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-lg font-semibold">
-                      ₹
+                      ₹{" "}
                       {Math.floor(
                         product.price -
                           product.price * (product.discountPercentage / 100)
@@ -46,8 +81,8 @@ const Cart = () => {
                 </div>
                 <div className="flex text-sm divide-x">
                   <button
-                    type="button"
                     className="flex items-center px-2 py-1 pl-0 space-x-1"
+                    onClick={() => handleRemove(product.id)}
                   >
                     <MdDelete />
                     <span>Remove</span>
@@ -55,14 +90,19 @@ const Cart = () => {
 
                   <div className="flex justify-center items-center w-1/5">
                     {/* Decrease Quantity */}
-                    <FaMinus />
+                    <button onClick={() => handleDecrement(product)}>
+                      <FaMinus />
+                    </button>
                     <input
                       className="mx-2 border text-center w-8"
                       type="text"
-                      value="1"
+                      value={product.quantity}
+                      onChange={() => null}
                     />
                     {/* Increase Quantity */}
-                    <FaPlus />
+                    <button onClick={() => handleIncrement(product)}>
+                      <FaPlus />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -73,20 +113,20 @@ const Cart = () => {
       <div className="space-y-1 text-right">
         <p>
           Total amount:
-          <span className="font-semibold">₹ 357</span>
+          <span className="font-semibold">₹ {totalPrice}</span>
         </p>
         <p className="text-sm dark:text-gray-600">
           Not including taxes and shipping costs
         </p>
       </div>
       <div className="flex justify-end space-x-4">
-        <button
-          type="button"
+        <Link
+          to={"/"}
           className="px-6 py-2 border rounded-md dark:border-violet-600"
         >
           Back
           <span className="sr-only sm:not-sr-only">to shop</span>
-        </button>
+        </Link>
         <button
           type="button"
           className="px-6 py-2 border rounded-md dark:bg-violet-600 dark:text-gray-50 dark:border-violet-600"
