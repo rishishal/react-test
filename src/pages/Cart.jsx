@@ -2,17 +2,22 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, incrementIndex, decrementIndex } from "../utils/cartSlice";
+import { setDeleteBox, confirmDelete } from "../utils/cartSlice";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import DeleteAlret from "../components/DeleteAlret";
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector((store) => store.allCart.cart);
 
   console.log(items);
   const [totalPrice, setTotalPrice] = useState(0);
+  const deleteBox = useSelector((store) => store.allCart.deleteBox);
 
   const handleRemove = (itemID) => {
     dispatch(removeItem(itemID));
+    toggleModal();
+    dispatch(confirmDelete());
   };
 
   const calculateTotalPrice = () => {
@@ -37,9 +42,21 @@ const Cart = () => {
     }
   };
 
+  const toggleModal = () => {
+    dispatch(setDeleteBox(!deleteBox));
+  };
+
   useEffect(() => {
     calculateTotalPrice();
   }, [items]);
+
+  if (deleteBox) {
+    return (
+      <div>
+        <DeleteAlret toggleModal={toggleModal} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col max-w-5xl m-auto p-6 space-y-4 m-x-10 dark:bg-gray-50 dark:text-gray-800">
