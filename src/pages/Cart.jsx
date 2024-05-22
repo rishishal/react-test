@@ -1,23 +1,20 @@
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, incrementIndex, decrementIndex } from "../utils/cartSlice";
-import { setDeleteBox, confirmDelete } from "../utils/cartSlice";
+import { incrementIndex, decrementIndex } from "../utils/cartSlice";
+import { setDeleteBox, removeItem } from "../utils/cartSlice";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DeleteAlret from "../components/DeleteAlret";
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector((store) => store.allCart.cart);
-
   console.log(items);
   const [totalPrice, setTotalPrice] = useState(0);
   const deleteBox = useSelector((store) => store.allCart.deleteBox);
 
-  const handleRemove = (itemID) => {
-    dispatch(removeItem(itemID));
-    toggleModal();
-    dispatch(confirmDelete());
+  const handleRemove = (itemId) => {
+    dispatch(removeItem(itemId));
   };
 
   const calculateTotalPrice = () => {

@@ -19,9 +19,7 @@ const cartSlice = createSlice({
       }
     },
     removeItem: (state, action) => {
-      if (state.confirm) {
-        state.itemToDelete = action.payload;
-      }
+      state.cart = state.cart.filter((item) => item.id !== action.payload);
     },
     incrementIndex: (state, action) => {
       const indexToIncrement = action.payload;
