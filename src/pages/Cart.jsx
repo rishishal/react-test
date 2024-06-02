@@ -2,19 +2,20 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { incrementIndex, decrementIndex } from "../utils/cartSlice";
-import { setDeleteBox, removeItem } from "../utils/cartSlice";
+import { setDeleteBox, removetoggle, setOpenModal } from "../utils/cartSlice";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DeleteAlret from "../components/DeleteAlret";
+import RemoveModle from "../components/RemoveModal";
 const Cart = () => {
   const dispatch = useDispatch();
   const items = useSelector((store) => store.allCart.cart);
   console.log(items);
   const [totalPrice, setTotalPrice] = useState(0);
   const deleteBox = useSelector((store) => store.allCart.deleteBox);
-
+  const openModal = useSelector((store) => store.allCart.openModal);
   const handleRemove = (itemId) => {
-    dispatch(removeItem(itemId));
+    dispatch(removetoggle(itemId));
   };
 
   const calculateTotalPrice = () => {
@@ -42,17 +43,20 @@ const Cart = () => {
   const toggleModal = () => {
     dispatch(setDeleteBox(!deleteBox));
   };
+  const toggleOpen = () => {
+    dispatch(setOpenModal(!openModal));
+  };
 
   useEffect(() => {
     calculateTotalPrice();
   }, [items]);
 
   if (deleteBox) {
-    return (
-      <div>
-        <DeleteAlret toggleModal={toggleModal} />
-      </div>
-    );
+    return <DeleteAlret toggleModal={toggleModal} />;
+  }
+
+  if (openModal) {
+    return <RemoveModle toggleOpen={toggleOpen} />;
   }
 
   return (
@@ -127,7 +131,7 @@ const Cart = () => {
       <div className="space-y-1 text-right">
         <p>
           Total amount:
-          <span className="font-semibold">₹ {totalPrice}</span>
+          <span className="font-semibold">₹ {totalPrice.toFixed(2)}</span>
         </p>
         <p className="text-sm dark:text-gray-600">
           Not including taxes and shipping costs

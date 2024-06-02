@@ -7,6 +7,9 @@ const cartSlice = createSlice({
     deleteBox: false,
     confirm: false,
     itemToDelete: null,
+    openModal: false,
+    onSubmit: false,
+    removeItemId: null,
   },
   reducers: {
     addItem: (state, action) => {
@@ -18,9 +21,7 @@ const cartSlice = createSlice({
         state.cart.push({ ...action.payload, quantity: 1 });
       }
     },
-    removeItem: (state, action) => {
-      state.cart = state.cart.filter((item) => item.id !== action.payload);
-    },
+
     incrementIndex: (state, action) => {
       const indexToIncrement = action.payload;
       if (indexToIncrement >= 0 && indexToIncrement < state.cart.length) {
@@ -40,7 +41,6 @@ const cartSlice = createSlice({
     },
     confirmDelete: (state) => {
       if (state.confirm && state.itemToDelete !== null) {
-        console.log("C", state.confirm);
         state.cart.splice(state.itemToDelete, 1);
         state.confirm = false;
         state.itemToDelete = null;
@@ -58,17 +58,47 @@ const cartSlice = createSlice({
     setConfirm: (state) => {
       state.confirm = !state.confirm;
     },
+
+    removetoggle: (state, action) => {
+      state.removeItemId = action.payload;
+      state.openModal = true;
+    },
+    setOpenModal: (state) => {
+      state.openModal = !state.openModal;
+    },
+    setOnSubmit: (state) => {
+      state.onSubmit = !state.onSubmit;
+    },
+    removeItem: (state) => {
+      if (state.onSubmit && state.removeItemId !== null) {
+        state.cart = state.cart.filter(
+          (item) => item.id !== state.removeItemId
+        );
+        state.onSubmit = false;
+        state.openModal = false;
+        state.removeItemId = null;
+      }
+    },
+    cancelModal: (state) => {
+      state.openModal = false;
+      state.onSubmit = false;
+      state.removeItemId = null;
+    },
   },
 });
 
 export const {
   addItem,
-  removeItem,
   incrementIndex,
   decrementIndex,
   confirmDelete,
   cancelDelete,
   setConfirm,
   setDeleteBox,
+  removeItem,
+  setOpenModal,
+  setOnSubmit,
+  removetoggle,
+  cancelModal,
 } = cartSlice.actions;
 export default cartSlice.reducer;

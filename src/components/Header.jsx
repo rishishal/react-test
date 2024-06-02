@@ -128,7 +128,7 @@ const Header = () => {
                       </span>
                     </div>
                   </div>
-                  <FaCartShopping className="text-white w-5 h-5 mt-0.5" />
+                  <FaCartShopping className="w-5 h-5 mt-0.5" />
                 </Link>
               </li>
             </ul>
